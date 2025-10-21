@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <title>Historial de Mensajes</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background-color: #f1f1f1;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+    }
+    .chat-container {
+      background-color: #fff;
+      border: 1px solid #ccc;
+      border-radius: 18px;
+      width: 300px;
+      padding: 20px;
+      box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    }
+    .chat-box {
+      height: 500px;
+      border: 1px solid #ddd;
+      margin-bottom: 10px;
+      padding: 10px;
+      overflow-y: auto;
+      background-color: #fafafa;
+    }
+    .mensaje {
+      margin-bottom: 10px;
+      padding: 8px;
+      background-color: #6daed4;
+      border-radius: 8px;
+      color: white;
+      width: fit-content;
+    }
+    .titulo {
+      text-align: center;
+      margin-bottom: 10px;
+      font-weight: bold;
+    }
+  </style>
+</head>
+<body>
+  <div class="chat-container">
+    <div class="titulo">📜 Historial de mensajes</div>
+    <div class="chat-box" id="chatBox"></div>
+  </div>
+
+  <script>
+    async function cargarMensajes() {
+      try {
+        const respuesta = await fetch("https://trabajito-aqui-va-el-main-py-2-rodriguez.onrender.com/mensajes");
+        const datos = await respuesta.json();
+        const chatBox = document.getElementById("chatBox");
+        chatBox.innerHTML = "";
+
+        datos.forEach(m => {
+          const div = document.createElement("div");
+          div.className = "mensaje";
+          div.textContent = m.mensaje + " (" + new Date(m.fecha).toLocaleString() + ")";
+          chatBox.appendChild(div);
+        });
+      } catch (error) {
+        console.error("Error cargando mensajes:", error);
+      }
+    }
+
+    // Cargar los mensajes al entrar a la página
+    cargarMensajes();
+  </script>
+</body>
+</html>
