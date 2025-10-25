@@ -102,34 +102,35 @@
   </style>
 </head>
 <body>
-  <div class="chat-container">
-    <h3>Chat 1</h3>
-    <div class="chat-box" id="chatBox1"></div>
-    <div class="input-box">
-      <input type="text" id="chatInput1" placeholder="Escribe un mensaje..."/>
-      <button onclick="enviarMensaje(1)">Enviar</button>
-      <br><br>
-      <button onclick="window.location.href='mensajes.html'" 
-              style="width:100%; padding:10px; background-color:#6daed4; border:none; color:white; border-radius:8px; cursor:pointer;">
-        📜 Ver historial
-      </button>
+  <div class="container">
+    <div class="chat-container">
+      <h3>Chat 1</h3>
+      <div class="chat-box" id="chatBox1"></div>
+      <div class="input-box">
+        <input type="text" id="chatInput1" placeholder="Escribe un mensaje..."/>
+        <button onclick="enviarMensaje(1)">Enviar</button>
+        <br><br>
+        <button onclick="window.location.href='mensajes.html'" 
+                style="width:100%; padding:10px; background-color:#6daed4; border:none; color:white; border-radius:8px; cursor:pointer;">
+          📜 Ver historial
+        </button>
+      </div>
+    </div>
+  
+    <div class="chat-container">
+      <h3>Chat 2</h3>
+      <div class="chat-box" id="chatBox2"></div>
+      <div class="input-box">
+        <input type="text" id="chatInput2" placeholder="Escribe un mensaje..."/>
+        <button onclick="enviarMensaje(2)">Enviar</button>
+        <br><br>
+        <button onclick="window.location.href='mensajes.html'" 
+                style="width:100%; padding:10px; background-color:#6daed4; border:none; color:white; border-radius:8px; cursor:pointer;">
+          📜 Ver historial
+        </button>
+      </div>
     </div>
   </div>
-
-  <div class="chat-container">
-    <h3>Chat 2</h3>
-    <div class="chat-box" id="chatBox2"></div>
-    <div class="input-box">
-      <input type="text" id="chatInput2" placeholder="Escribe un mensaje..."/>
-      <button onclick="enviarMensaje(2)">Enviar</button>
-      <br><br>
-      <button onclick="window.location.href='mensajes.html'" 
-              style="width:100%; padding:10px; background-color:#6daed4; border:none; color:white; border-radius:8px; cursor:pointer;">
-        📜 Ver historial
-      </button>
-    </div>
-  </div>
-
   <script>
     // Función para enviar mensaje
     function enviarMensaje(chatNum) {
