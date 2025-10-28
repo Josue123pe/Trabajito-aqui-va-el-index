@@ -1,51 +1,9 @@
 <!DOCTYPE html>
+<html lang="es">
 <head>
-  <title>Pusher Test</title>
+  <meta charset="UTF-8">
+  <title>Chatbox Dual</title>
   <script src="https://js.pusher.com/8.4.0/pusher.min.js"></script>
-  <script>
-
-    // Enable pusher logging - don't include this in production
-    Pusher.logToConsole = true;
-
-    // Primer canal (chatbox 1)
-    var pusher1 = new Pusher('c87165fe436b0a5d5ba0', {
-      cluster: 'mt1'
-    });
-    var channel1 = pusher1.subscribe('josue-yeremi');
-    channel1.bind('my-event', function(data) {
-        const chatBox1 = document.getElementById('chatBox1');
-        const messageElement = document.createElement('div');
-        messageElement.style.marginBottom = '10px';
-        messageElement.style.padding = '8px';
-        messageElement.style.backgroundColor = '#F54927';
-        messageElement.style.borderRadius = '8px';
-        messageElement.style.color = 'white';
-        messageElement.style.width = 'fit-content';
-        messageElement.textContent = JSON.stringify(data);
-        chatBox1.appendChild(messageElement);
-        chatBox1.scrollTop = chatBox1.scrollHeight;
-    });
-
-    // Segundo canal (chatbox 2)
-    var pusher2 = new Pusher('5398827de005ac67b6b2', {
-      cluster: 'mt1'
-    });
-    var channel2 = pusher2.subscribe('josue-juanito');
-    channel2.bind('my-event', function(data) {
-        const chatBox2 = document.getElementById('chatBox2');
-        const messageElement = document.createElement('div');
-        messageElement.style.marginBottom = '10px';
-        messageElement.style.padding = '8px';
-        messageElement.style.backgroundColor = '#6daed4';
-        messageElement.style.borderRadius = '8px';
-        messageElement.style.color = 'white';
-        messageElement.style.width = 'fit-content';
-        messageElement.textContent = JSON.stringify(data);
-        chatBox2.appendChild(messageElement);
-        chatBox2.scrollTop = chatBox2.scrollHeight;
-    });
-
-  </script>
   <style>
     body {
       font-family: Arial, sans-serif;
@@ -56,17 +14,18 @@
       height: 100vh;
       flex-direction: column;
     }
-
+    .container {
+      display: flex;
+      gap: 20px;
+    }
     .chat-container {
       background-color: #fff;
       border: 1px solid #ccc;
       border-radius: 18px;
       width: 300px;
       padding: 20px;
-      box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-      margin-bottom: 20px;
+      box-shadow: 0 0 10px rgba(0,0,0,0.1);
     }
-
     .chat-box {
       height: 300px;
       border: 1px solid #ddd;
@@ -75,11 +34,6 @@
       overflow-y: auto;
       background-color: #fafafa;
     }
-
-    .input-box {
-      width: 100%;
-    }
-
     .input-box input {
       width: 100%;
       padding: 10px;
@@ -87,10 +41,6 @@
       border: 1px solid #ccc;
       border-radius: 4px;
       box-sizing: border-box;
-    }
-    .container {
-      display: flex;
-      gap: 20px;
     }
     button {
       width: 100%;
@@ -106,68 +56,80 @@
 </head>
 <body>
   <div class="container">
+    <!-- CHAT 1 -->
     <div class="chat-container">
-      <h3>Chat 1</h3>
+      <h3>Chat Josue 🧑</h3>
       <div class="chat-box" id="chatBox1"></div>
       <div class="input-box">
-        <input type="text" id="chatInput1" placeholder="Escribe un mensaje..."/>
+        <input type="text" id="chatInput1" placeholder="Escribe un mensaje...">
         <button onclick="enviarMensaje(1)">Enviar</button>
-        <br><br>
-        <button onclick="window.location.href='mensajes.html'" 
-                style="width:100%; padding:10px; background-color:#6daed4; border:none; color:white; border-radius:8px; cursor:pointer;">
-          📜 Ver historial
-        </button>
+        <button onclick="window.location.href='mensajes.html'">📜 Ver historial</button>
       </div>
     </div>
-  
+
+    <!-- CHAT 2 -->
     <div class="chat-container">
-      <h3>Chat 2</h3>
+      <h3>Chat Yeremi 👦</h3>
       <div class="chat-box" id="chatBox2"></div>
       <div class="input-box">
-        <input type="text" id="chatInput2" placeholder="Escribe un mensaje..."/>
+        <input type="text" id="chatInput2" placeholder="Escribe un mensaje...">
         <button onclick="enviarMensaje(2)">Enviar</button>
-        <br><br>
-        <button onclick="window.location.href='mensajes.html'" 
-                style="width:100%; padding:10px; background-color:#6daed4; border:none; color:white; border-radius:8px; cursor:pointer;">
-          📜 Ver historial
-        </button>
+        <button onclick="window.location.href='mensajes.html'">📜 Ver historial</button>
       </div>
     </div>
   </div>
+
   <script>
-    // Función para enviar mensaje
+    // Configuración general de Pusher
+    Pusher.logToConsole = true;
+
+    // CHAT 1: canal josue-yeremi
+    const pusher1 = new Pusher('c87165fe436b0a5d5ba0', { cluster: 'mt1' });
+    const channel1 = pusher1.subscribe('josue-yeremi');
+    channel1.bind('my-event', data => mostrarMensaje(data, 1, '#F54927'));
+
+    // CHAT 2: canal josue-juanito
+    const pusher2 = new Pusher('5398827de005ac67b6b2', { cluster: 'mt1' });
+    const channel2 = pusher2.subscribe('josue-juanito');
+    channel2.bind('my-event', data => mostrarMensaje(data, 2, '#6daed4'));
+
+    // Mostrar mensajes en el chat correspondiente
+    function mostrarMensaje(data, chatNum, color) {
+      const chatBox = document.getElementById(`chatBox${chatNum}`);
+      const msg = document.createElement('div');
+      msg.style.marginBottom = '10px';
+      msg.style.padding = '8px';
+      msg.style.backgroundColor = color;
+      msg.style.borderRadius = '8px';
+      msg.style.color = 'white';
+      msg.style.width = 'fit-content';
+      msg.textContent = data.message;
+      chatBox.appendChild(msg);
+      chatBox.scrollTop = chatBox.scrollHeight;
+    }
+
+    // Enviar mensajes
     function enviarMensaje(chatNum) {
       const input = document.getElementById(`chatInput${chatNum}`);
       const message = input.value.trim();
+      if (!message) return;
 
-      if (message !== '') {
-        const chatBox = document.getElementById(`chatBox${chatNum}`);
-        const messageElement = document.createElement('div');
-        messageElement.style.marginBottom = '10px';
-        messageElement.style.padding = '8px';
-        messageElement.style.backgroundColor = chatNum === 1 ? '#5daed3' : '#6daed4';
-        messageElement.style.borderRadius = '8px';
-        messageElement.style.color = 'white';
-        messageElement.style.width = 'fit-content';
-        messageElement.textContent = message;
-        chatBox.appendChild(messageElement);
-        chatBox.scrollTop = chatBox.scrollHeight;
+      // Mostrar mensaje localmente
+      mostrarMensaje({ message }, chatNum, chatNum === 1 ? '#5daed3' : '#4fa8e4');
 
-        // Enviar al canal correspondiente
-        fetch("https://trabajito-aqui-va-el-main-py-2-rodriguez.onrender.com", {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json"
-          },
-          body: JSON.stringify({ message: message })
-        })
-        .then((data) => {
-          console.log("Respuesta del servidor:", data);
-        });
+      // Enviar al canal correcto
+      const canal = chatNum === 1 ? 'josue-yeremi' : 'josue-juanito';
+      fetch("https://trabajito-aqui-va-el-main-py-2-rodriguez.onrender.com", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ message, canal })
+      })
+      .then(r => console.log("Mensaje enviado:", message))
+      .catch(err => console.error("Error:", err));
 
-        input.value = ''; // Limpiar input después del envío
-      }
+      input.value = '';
     }
   </script>
 </body>
 </html>
+
