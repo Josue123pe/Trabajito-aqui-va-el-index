@@ -103,7 +103,7 @@
       msg.style.borderRadius = '8px';
       msg.style.color = 'white';
       msg.style.width = 'fit-content';
-      msg.textContent = data.message;
+      msg.textContent = data.message?.message || data.message;
       chatBox.appendChild(msg);
       chatBox.scrollTop = chatBox.scrollHeight;
     }
