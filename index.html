@@ -103,11 +103,17 @@
       msg.style.borderRadius = '8px';
       msg.style.color = 'white';
       msg.style.width = 'fit-content';
-      msg.textContent = data.message?.message || data.message;
+
+      // 🧠 Aseguramos que siempre se muestre solo el texto limpio
+      const texto =
+        typeof data === 'string'
+          ? data
+          : data.message?.message || data.message || JSON.stringify(data);
+
+      msg.textContent = texto;
       chatBox.appendChild(msg);
       chatBox.scrollTop = chatBox.scrollHeight;
     }
-
     // Enviar mensajes
     function enviarMensaje(chatNum) {
       const input = document.getElementById(`chatInput${chatNum}`);
